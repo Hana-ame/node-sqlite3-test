@@ -1,3 +1,14 @@
 node_modules
 *.db
 run.md
+cheatsheet.md
+cookie.txt
+Authorization.txt
+secret.json
+
+# tsc -p ./tsconfig.json
+cookie.js
+migrate.js
+debug.js
+utils.js
+fav.js

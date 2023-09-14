@@ -20,35 +20,36 @@ const db = new sqlite3Verbose.Database('notes.db');
 db.serialize(() => {
   // 创建表
   db.run(`CREATE TABLE IF NOT EXISTS notes (
-    id INTEGER PRIMARY KEY, 
+    id TEXT PRIMARY KEY, 
     spoiler_text TEXT,
     content TEXT,
-    data TEXT)`);
+    data TEXT,
+    favourited_by TEXT)`);
   db.run(`CREATE TABLE IF NOT EXISTS accts (
-    id INTEGER PRIMARY KEY, 
+    id TEXT PRIMARY KEY, 
     acct TEXT,
-    data TEXT)`);
-
-  // 插入记录
-  db.run("INSERT INTO users (name) VALUES ('John')");
-  db.run("INSERT INTO users (name) VALUES ('Jane')");
+    data TEXT,
+    relationship TEXT)`);
 });
 
 
 function saveAcctToDB(id, acct, data){
-  console.log("INSERT OR REPLACE INTO accts (id, acct, data) VALUES (?, ?, ?)",
-    id, acct, data)
+  // console.log("INSERT OR REPLACE INTO accts (id, acct, data) VALUES (?, ?, ?)",
+    // id, acct, data)
   db.serialize(() => {
-    db.run("INSERT OR REPLACE INTO accts (id, acct, data) VALUES (?, ?, ?)",
+    db.run(`INSERT INTO accts (id, acct, data) VALUES (?, ?, ?) 
+      ON CONFLICT(id) DO
+      UPDATE SET data=excluded.data;`,
     id, acct, data)
   })
 }
 
 function saveNoteToDB(id, spoiler_text, content, data){
-  console.log("INSERT OR REPLACE INTO notes (id, spoiler_text, content, data) VALUES (?, ?, ?, ?)",
-    id, spoiler_text, content, data)
+  // console.log("INSERT OR REPLACE INTO notes (id, spoiler_text, content, data) VALUES (?, ?, ?, ?)",
+    // id, spoiler_text, content, data)
   db.serialize(() => {
-    db.run("INSERT OR REPLACE INTO notes (id, spoiler_text, content, data) VALUES (?, ?, ?, ?)",
+    db.run(`INSERT INTO notes (id, spoiler_text, content, data) VALUES (?, ?, ?, ?)
+      ON CONFLICT(id) DO NOTHING;`,
     id, spoiler_text, content, data)
   })
 }
@@ -71,12 +72,12 @@ function connect(){
 
   // 还行，能接受到了
   ws.on('message', function message(data) {
-    console.log('received: %s', data);
+    // console.log('received: %s', data);
     try{
       const jsonObject = JSON.parse(data);
       const payload = JSON.parse(jsonObject.payload); // this should be payload json.
       if (payload.language === 'zh') {
-        saveNoteToDB(payload.id, payload.spoiler_text, payload.content, data)
+        saveNoteToDB(payload.id, payload.spoiler_text, payload.content, jsonObject.payload)
         const account = payload.account
         saveAcctToDB(account.id, account.acct, JSON.stringify(account))
       }    

@@ -1,4 +1,6 @@
 # 要求
+**key word: 查漏补缺**
+
 监听global的消息
 存储所有的`"language":"zh"`消息
 存储所有的account。
@@ -46,20 +48,69 @@ notes，accts两张表
 ## websocket
 
 ## sqlite3
+事务和run的关系
+还有精度的问题
+sqlite3？
+呃啊。js怎么写的问题。
+有空记得看。
+## typescript
 
-# cheat sheet
+`import fs`报错了，找不到
 
-## sqlite3
+绷，config文件好像只读`/`的
+另外还做了的事情
+`tsconfig.json`
+```json
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs"
+  }
+}
+```
+
+`npm i -D @types/node`
+```json
+{
+    "compilerOptions": {
+    "types": [
+      "node"
+    ]
+  }
+}
+```
+
+绷，怎么拿这个编译的
 ```sh
-C:\bin\sqlite-tools-win32-x86-3400100\sqlite3.exe notes.db
+tsc -p ./tsconfig.json
 ```
-```sql
-SELECT name FROM sqlite_master WHERE type='table';
--- users
-SELECT * FROM users;
--- 1|John
--- 2|Jane
+
+`tsconfig.json`改成
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "types": [
+      "node"
+    ]
+  }
+}
 ```
+top level不让用await
+[ref](https://stackoverflow.com/questions/66486903/top-level-await-expressions-are-only-allowed-when-the-module-option-is-set-t)
+
+```json
+{
+  "compilerOptions": {
+    ...
+    "moduleResolution":"node",
+  }
+}
+```
+这是啥啊。
+解决了`Cannot find module 'sqlite3'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option?ts(2792)`
+
 
 # log
 
@@ -130,7 +181,7 @@ db.serialize(() => {
 大概是GPT问出来的。
 
 
-要proxy访问，先换个镜像试下去。
+~~要proxy访问，先换个镜像试下去。~~
 
 
 
@@ -186,13 +237,14 @@ console死掉了用ctrl + C回复
 ~~成了~~
 
 
-插入相同的acct会报错
-修改为
+~~插入相同的acct会报错~~
+~~修改为~~
 ```sql
 INSERT OR REPLACE
 ```
-就好了
-[ref](https://www.sqlitetutorial.net/sqlite-replace-statement/)
+~~就好了~~
+[ref](https://www.sqlitetutorial.net/sqlite-replace-statement/) 
+坑！（from 几个小时后）
 
 
 十分钟20M
@@ -200,5 +252,40 @@ INSERT OR REPLACE
 哦，KB啊，那没事了……好像也不是没事
 
 
-需要断线重连 
+~~需要断线重连 ~~
 做好了，大概吧，还在跑着
+
+
+cookie
+做个手动ban了的
+哦还要先做查`favourated_by`和`reblog`
+debug吃屎
+
+
+~~可以先写一个查自己的。~~
+
+
+数字被取整了，难绷
+~~要修数据库。~~
+修好了
+
+
+差fav和reblog的查询
+记得加column
+加逻辑
+
+
+修正了不期待的replace行为
+[ref](https://www.one-tab.com/page/TsKsaa0aTT6f649npGFR5Q?ext=3476a8b4-aba9-4506-ac8e-fa942330ec65)
+请用 on conflict
+吃屎
+
+
+改了一下relationship的逻辑
+Array没解，难绷。
+undefined什么都不会进去
+
+
+favs.ts
+not tested
+tested,  works well?
