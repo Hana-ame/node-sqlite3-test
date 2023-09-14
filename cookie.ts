@@ -39,7 +39,8 @@ async function readFileContents(filePath: string): Promise<string> {
     });
   });
 }
-const authorization = await readFileContents('Authorization.txt')
+const secret = await readFileContents('secret.json').then(r => JSON.parse(r))
+const authorization = secret.authorization
 console.log(authorization)
 // db
 
@@ -59,6 +60,7 @@ function main(){
       FROM accts 
       WHERE 
         relationship IS NULL 
+        OR relationship = 'NEED BLOCK'
       LIMIT 50;`, (err, rows: any) => {
         if (err) {
           console.error(err.message);

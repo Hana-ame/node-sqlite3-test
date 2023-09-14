@@ -289,3 +289,9 @@ undefined什么都不会进去
 favs.ts
 not tested
 tested,  works well?
+
+
+curl notes from local users? (which will record favs from fedi)
+curl ff?
+sister's notes? once again make a lib? <- ~~this is good~~
+all todo 

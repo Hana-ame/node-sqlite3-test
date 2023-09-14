@@ -5,6 +5,7 @@ cheatsheet.md
 cookie.txt
 Authorization.txt
 secret.json
+py.py
 
 # tsc -p ./tsconfig.json
 cookie.js
@@ -12,3 +13,4 @@ migrate.js
 debug.js
 utils.js
 fav.js
+reblog.js

@@ -14,7 +14,7 @@ function getRows(){
         id, data 
       FROM notes 
       WHERE 
-        favourited_by IS NULL 
+        reblogged_by IS NULL 
       LIMIT 30;`, (err, rows: any) => {
         if (err) {
           console.error(err.message);
@@ -29,7 +29,7 @@ const rows = await getRows()
 
 
 function favUrl(id: string, host: string) {
-  return `https://${host}/api/v1/statuses/${id}/favourited_by`
+  return `https://${host}/api/v1/statuses/${id}/reblogged_by`
 }
 
 const favArrs = await Promise.all(rows.map(async (row) => {
@@ -48,7 +48,7 @@ db.serialize(() => {
     }catch(error){
       console.error('Error:', error.message);
     }
-    db.run(`UPDATE notes SET favourited_by = ? WHERE id = ?;`,
+    db.run(`UPDATE notes SET reblogged_by = ? WHERE id = ?;`,
       JSON.stringify(favArr), id)
   })
 })
