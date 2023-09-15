@@ -1,4 +1,13 @@
 #!/bin/bash
+
+# usage ./bash [fav.js|reblog.js|cookie.js] [300|1800] 30?
+
+SCRIPT=$1
+DEALY=$2
+ITERATION=$3
+
+echo "SCRIPT=$SCRIPT"
+
 countdown() {
   local seconds=$1
   while [ $seconds -gt 0 ]; do
@@ -9,11 +18,11 @@ countdown() {
   echo -e "Countdown complete!\n"
 }
 
-for ((i=1; i<=350; i++))
+for ((i=1; i<=$ITERATION; i++))
 do
   echo "Iteration $i"
   # 在这里添加要重复执行的代码
-  node cookie.js
+  node $1
   echo "Iteration $i done"
-  countdown 300
+  countdown $2
 done

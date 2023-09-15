@@ -98,7 +98,7 @@ db.serialize(() => {
           SET relationship = 'NEED BLOCK'
           WHERE id = ?`, row.id)
         // })
-      } else if (r.blocked_by && r.blocking) {
+      } else if (r.blocking) {
         // db.serialize(() => {
           db.run(`UPDATE accts 
           SET relationship = 'BLOCKED'

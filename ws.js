@@ -44,7 +44,7 @@ function saveAcctToDB(id, acct, data) {
     (error) => {
       if (error) {
         if (error.code === "SQLITE_BUSY") {
-          // Database is locked, retry after a delay
+          console.log(`Database is locked, retry after a delay`)
           setTimeout(() => saveAcctToDB(id, acct, data), 500);
         } else {
           console.error("Error executing SQL query:", error);
@@ -66,7 +66,7 @@ function saveNoteToDB(id, spoiler_text, content, data) {
     (error) => {
       if (error) {
         if (error.code === "SQLITE_BUSY") {
-          // Database is locked, retry after a delay
+          console.log(`Database is locked, retry after a delay`)
           setTimeout(() => saveNoteToDB(id, spoiler_text, content, data), 500);
         } else {
           console.error("Error executing SQL query:", error);
