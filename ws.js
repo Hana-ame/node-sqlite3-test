@@ -33,9 +33,9 @@ db.serialize(() => {
 });
 
 function saveAcctToDB(id, acct, data) {
-  // console.log("INSERT OR REPLACE INTO accts (id, acct, data) VALUES (?, ?, ?)",
-  // id, acct, data)
-  // db.serialize(() => {
+  console.log("INSERT OR REPLACE INTO accts (id, acct, data) VALUES (?, ?, ?)",
+  id, acct, data)
+  db.serialize(() => {
   db.run(
     `INSERT INTO accts (id, acct, data) VALUES (?, ?, ?) 
       ON CONFLICT(id) DO
@@ -52,13 +52,13 @@ function saveAcctToDB(id, acct, data) {
       }
     }
   );
-  // })
+  })
 }
 
 function saveNoteToDB(id, spoiler_text, content, data) {
-  // console.log("INSERT OR REPLACE INTO notes (id, spoiler_text, content, data) VALUES (?, ?, ?, ?)",
-  // id, spoiler_text, content, data)
-  // db.serialize(() => {
+  console.log("INSERT OR REPLACE INTO notes (id, spoiler_text, content, data) VALUES (?, ?, ?, ?)",
+  id, spoiler_text, content, data)
+  db.serialize(() => {
   db.run(
     `INSERT INTO notes (id, spoiler_text, content, data) VALUES (?, ?, ?, ?)
       ON CONFLICT(id) DO NOTHING;`,
@@ -74,7 +74,7 @@ function saveNoteToDB(id, spoiler_text, content, data) {
       }
     }
   );
-  // })
+  })
 }
 
 // workflow for  websocket

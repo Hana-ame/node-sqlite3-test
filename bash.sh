@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# usage ./bash [fav.js|reblog.js|cookie.js] [300|1800] 30?
+# usage:
+#  ./bash.sh [fav.js|reblog.js|cookie.js] [300|1800] 30
+# eg:
+# ./bash.sh fav.js 450 30 
+# ./bash.sh reblog.js 450 30
 
 SCRIPT=$1
 DEALY=$2

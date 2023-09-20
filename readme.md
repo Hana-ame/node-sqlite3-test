@@ -295,3 +295,6 @@ curl notes from local users? (which will record favs from fedi)
 curl ff?
 sister's notes? once again make a lib? <- ~~this is good~~
 all todo 
+
+
+查名单里人的最新notes
