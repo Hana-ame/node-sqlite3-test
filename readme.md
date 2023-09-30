@@ -1,3 +1,31 @@
+# usage
+
+```sh
+# 监听
+node ./ws.js wss://wss.wxw.ooo/api/v1/streaming/?
+# 通过relationship查漏补缺
+./bash.sh cookie.js 300 30
+
+# ex: 通过喜欢和reblog查漏补缺
+./bash.sh fav.js 450 30 
+./bash.sh reblog.js 450 30
+
+# 打开数据库
+C:\bin\sqlite-tools-win32-x86-3400100\sqlite3.exe notes.db
+/c/bin/sqlite-tools-win32-x86-3400100/sqlite3.exe notes.db
+```
+```sql
+-- 查看有什么
+select count(id) from notes; select count(id) from accts where relationship is null; select count(id) from accts where relationship is not null; select id, acct, relationship from accts where relationship not in ('DEFAULT', 'HaruUrara', 'BLOCKED'); 
+-- 返回值分别是
+-- 收集到的note数
+-- 还没查漏补缺的account数
+-- 总的account数
+```
+
+## TODO
+还没做proxy，要做一个么
+
 # 要求
 **key word: 查漏补缺**
 
@@ -298,3 +326,11 @@ all todo
 
 
 查名单里人的最新notes
+
+
+绷不住了，怎么写出两种类型json存一起了，这下尬住了。不弄了
+下次在说
+
+
+改一下`ws.js`
+表分开来了，下次

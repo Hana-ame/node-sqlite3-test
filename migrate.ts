@@ -1,8 +1,8 @@
 import sqlite3 from 'sqlite3';
 const sqlite3Verbose = sqlite3.verbose();
 
-const oldDB = new sqlite3Verbose.Database('notes_old.db'); 
-const db = new sqlite3Verbose.Database('notes.db'); 
+const oldDB = new sqlite3Verbose.Database('notes.db'); 
+const db = new sqlite3Verbose.Database('notes-bak.db'); 
 
 db.serialize(() => {
   // 创建表
@@ -29,7 +29,7 @@ db.serialize(() => {
 const noterows: any = await function query() {
   return new Promise((resolve) => {
     oldDB.serialize(() => {
-      oldDB.all(`SELECT data, favourited_by, reblogged_by FROM notes;`, (err, rows: any) => {
+      oldDB.all(`SELECT id, spoiler_text, data, content, favourited_by, reblogged_by FROM notes;`, (err, rows: any) => {
         if (err) {
           console.error(err.message);
         }
@@ -54,10 +54,11 @@ const acctrows: any = await function query() {
 
 db.serialize(() => {
   noterows.forEach(row => {
-    const transition = JSON.parse(row.data)
-    const note = JSON.parse(transition.payload)
+    const data = JSON.parse(row.data)
+    let note = data
+    if (data.payload) note = JSON.parse(data.payload);
     db.run("INSERT OR REPLACE INTO notes (id, spoiler_text, content, data) VALUES (?, ?, ?, ?)",
-      note.id, note.spoiler_text, note.content, row.data)
+      note.id, note.spoiler_text, note.content, JSON.stringify(note))
     // console.log(note)
     if ( row.favourited_by !== null) {
       db.run("INSERT OR REPLACE INTO favourited_by (id, data) VALUES (?, ?)",

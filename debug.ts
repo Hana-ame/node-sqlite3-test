@@ -2,12 +2,18 @@ import * as fs from 'fs'
 import sqlite3 from 'sqlite3';
 const sqlite3Verbose = sqlite3.verbose();
 
-const db = new sqlite3Verbose.Database('notes.db'); 
+const db = new sqlite3Verbose.Database('notes-bak.db'); 
 
 const rows: any = await function query() {
   return new Promise((resolve) => {
     db.serialize(() => {
-      db.all(`SELECT data, favourited_by, reblogged_by FROM notes WHERE reblogged_by IS NULL LIMIT 3;`, (err, rows: any) => {
+      db.all(`
+      SELECT notes.id, reblogged_by.* 
+      FROM notes 
+      LEFT JOIN reblogged_by
+      ON notes.id = reblogged_by.id 
+      LIMIT 1 OFFSET 550;
+      `, (err, rows: any) => {
         if (err) {
           console.error(err.message);
         }
